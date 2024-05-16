@@ -18,3 +18,59 @@ const initialFriends = [
     balance: 0,
   },
 ];
+
+export default function App() {
+  return (
+    <div className="app">
+      <div className="sidebar">
+        <FriendsList />
+        <FormAddFriend />
+      </div>
+    </div>
+  );
+}
+
+function FriendsList() {
+  const friends = initialFriends;
+  return (
+    <ul>
+      {friends.map((friend) => (
+        <Friend friend={friend} key={friend.id} />
+      ))}
+    </ul>
+  );
+}
+
+function Friend({ friend }) {
+  return (
+    <li>
+      <img src={friend.image} alt={friend.name} />
+      <h3>{friend.name}</h3>
+      {friend.balance < 0 && (
+        <p className="red">
+          You Owe {friend.name} {Math.abs(friend.balance)} RS
+        </p>
+      )}
+      {friend.balance > 0 && (
+        <p className="green">
+          {friend.name} owes you {friend.balance} RS
+        </p>
+      )}
+      {friend.balance === 0 && <p>You and {friend.name} are even</p>}
+      <button className="button">Select</button>
+    </li>
+  );
+}
+
+function FormAddFriend() {
+  return (
+    <form className="form-add-friend">
+      <label>🧑‍🤝‍🧑Friend Name</label>
+      <input type="text" />
+      <label>🖼️Image Url</label>
+
+      <input type="text" />
+      <button>Add</button>
+    </form>
+  );
+}
