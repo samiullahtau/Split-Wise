@@ -27,9 +27,9 @@ function Button({ children, onClick }) {
     </button>
   );
 }
-export default function App(bill) {
+export default function App() {
   const [showAddFriend, setShowAddFriend] = useState(false);
-  const [splitBill, setSplitBill] = useState(false);
+  // const [splitBill, setSplitBill] = useState(false);
   function handelshowAddFriend() {
     setShowAddFriend((show) => !show);
   }
@@ -43,7 +43,7 @@ export default function App(bill) {
           {showAddFriend ? "Close" : "Add Friend"}
         </Button>
       </div>
-      {splitBill && <FormSplitBill />}
+      <FormSplitBill />
     </div>
   );
 }
@@ -82,13 +82,38 @@ function Friend({ friend, onClick, bill }) {
 }
 
 function FormAddFriend() {
+  const [name, setName] = useState("");
+  const [image, setImage] = useState("https://i.pravatar.cc/48");
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const id = crypto.randomUUID();
+    const newfriend = {
+      id,
+      name,
+      image: `${image}?=${id}`,
+      balance: 0,
+    };
+    console.log(newfriend);
+    setName("");
+    setImage("https://i.pravatar.cc/48");
+  }
+
   return (
-    <form className="form-add-friend">
+    <form className="form-add-friend" onSubmit={handleSubmit}>
       <label>🧑‍🤝‍🧑Friend Name</label>
-      <input type="text" />
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
       <label>🖼️Image Url</label>
 
-      <input type="text" />
+      <input
+        type="text"
+        value={image}
+        onChange={(e) => setImage(e.target.value)}
+      />
       <Button>Add</Button>
     </form>
   );
